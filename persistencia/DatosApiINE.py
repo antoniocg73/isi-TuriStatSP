@@ -13,7 +13,7 @@ def descargar_archivo(url, nombre_archivo_destino):
 
 url = 'https://www.ine.es/jaxiT3/files/t/csv_bdsc/48440.csv'
 
-nombre_archivo_destino = 'persistencia/DatosINE.csv'
+nombre_archivo_destino = 'persistencia/datosEnCsv/DatosINE.csv'
 
 descargar_archivo(url, nombre_archivo_destino)
 
