@@ -24,19 +24,18 @@ function getColor(total) {
 }
 
 // Leer los datos de la base de datos SQLite y agregar círculos al mapa
-fetch('data.json') // Aquí debes proporcionar la ruta de tu archivo JSON que contiene los datos
+fetch('http://127.0.0.1:5000/get_data') // URL del servidor Flask que proporciona los datos
     .then(response => response.json())
     .then(data => {
         data.forEach(entry => {
             let circle = L.circle([entry.latitud, entry.longitud], {
                 color: 'black',
                 weight: 1,
-                fillColor: getColor(entry.total), // Obtener color según el total de visitas
+                fillColor: getColor(entry.total),
                 fillOpacity: 0.5,
-                radius: getCircleRadius(entry.total) // Obtener radio del círculo según el total de visitas
+                radius: getCircleRadius(entry.total)
             }).addTo(map);
             
-            // Puedes agregar información adicional al círculo, como un popup con el nombre de la comunidad y el número de visitas
             circle.bindPopup(`<b>${entry.comunidad}</b><br>Total de visitas: ${entry.total}`);
         });
     })
