@@ -29,7 +29,7 @@ def obtener_latitudes_longitudes(comunidades, archivo_destino):
 comunidades = [
     'Andalucía', 'Aragón', 'Asturias', 'Baleares', 'Canarias', 'Cantabria', 'Castilla y León',
     'Castilla-La Mancha', 'Cataluña', 'Ceuta', 'Comunidad Valenciana', 'Extremadura', 'Galicia',
-    'La Rioja', 'Madrid', 'Melilla', 'Murcia', 'Navarra', 'País Vasco'
+    'La Rioja', 'Madrid', 'Melilla', 'Murcia', 'Navarra', 'Euskadi'
 ]
 
 # Directorio y nombre del archivo de destino

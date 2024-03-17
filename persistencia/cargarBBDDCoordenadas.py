@@ -25,7 +25,7 @@ nombres_comunidades = {
     'Melilla': 'Melilla',
     'Murcia': 'Murcia',
     'Navarra': 'Navarra',
-    'País Vasco': 'Pais Vasco'
+    'Euskadi': 'Pais Vasco'
 }
 
 # Conectar a la base de datos SQLite
