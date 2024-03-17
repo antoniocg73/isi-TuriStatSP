@@ -7,7 +7,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 // Función para obtener el radio del círculo basado en el número de visitas
 function getCircleRadius(total) {
     // Puedes ajustar estos valores según tus datos para que los círculos sean proporcionales al número de visitas
-    return total / 1000; // Dividimos por 1000 para que el radio del círculo no sea demasiado grande
+    return Math.sqrt(total) * 20 // Dividimos por 1000 para que el radio del círculo no sea demasiado grande
 }
 
 // Función para asignar color a cada círculo según el número de visitas
@@ -40,4 +40,25 @@ fetch('http://127.0.0.1:5000/get_data') // URL del servidor Flask que proporcion
         });
     })
     .catch(error => console.error('Error al cargar los datos:', error));
+    // Función para agregar la leyenda al mapa
+function addLegend() {
+    var legend = L.control({position: 'bottomright'});
+    
+    legend.onAdd = function (map) {
+        var div = L.DomUtil.create('div', 'info legend'),
+            grades = ['50,000,000 - 100,000,000', '20,000,000 - 50,000,000', '10,000,000 - 20,000,000', '7,000,000 - 10,000,000', '3,000,000 - 7,000,000', '1,000,000 - 3,000,000', '100,000 - 1,000,000', 'Menos de 100,000'],
+            colors = ['#400101', '#750233', '#BD0026', '#E31A1C', '#FC4E2A', '#FD8D3C', '#FEB24C', '#FED976'];
+        
+        // Loop through our density intervals and generate a label with a colored square for each interval
+        for (var i = 0; i < grades.length; i++) {
+            div.innerHTML +=
+                '<i style="background:' + colors[i] + '"></i> ' +
+                grades[i] + '<br>';
+        }
+        
+        return div;
+    };
+    
+    legend.addTo(map);
+}
 

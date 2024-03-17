@@ -8,6 +8,10 @@ csv_file_path = os.path.join("persistencia", "DatosINE.csv")
 # Conectar a la base de datos SQLite
 conn = sqlite3.connect('persistencia/TuriStatSP-BBDD.db')
 cursor = conn.cursor()
+
+# Eliminar la tabla si existe
+cursor.execute('''DROP TABLE IF EXISTS TuristatSP_BBDD''')
+
 # Crear la tabla si no existe
 cursor.execute('''CREATE TABLE IF NOT EXISTS TuriStatSP_BBDD (
                     Total_Nacional TEXT,
