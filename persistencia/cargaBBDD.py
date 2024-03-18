@@ -4,9 +4,9 @@ import sqlite3
 import csv
 import os
 # Ruta del archivo CSV
-csv_file_path = os.path.join("persistencia/datosEnCsv", "DatosINE.csv")
+csv_file_path = os.path.join("persistencia", "DatosINE.csv")
 # Conectar a la base de datos SQLite
-conn = sqlite3.connect('persistencia/basesDeDatos/TuriStatSP-BBDD.db')
+conn = sqlite3.connect('persistencia/TuriStatSP-BBDD.db')
 cursor = conn.cursor()
 
 # Eliminar la tabla si existe

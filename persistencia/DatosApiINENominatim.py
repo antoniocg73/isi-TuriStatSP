@@ -33,7 +33,7 @@ comunidades = [
 ]
 
 # Directorio y nombre del archivo de destino
-nombre_archivo_destino = 'persistencia/datosEnCsv/LatitudesLongitudes.csv'
+nombre_archivo_destino = 'persistencia/LatitudesLongitudes.csv'
 
 # Obtener latitudes y longitudes y guardar en un archivo CSV
 obtener_latitudes_longitudes(comunidades, nombre_archivo_destino)

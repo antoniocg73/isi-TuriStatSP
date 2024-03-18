@@ -39,7 +39,7 @@ def mapear_provincia(nombre_provincia):
 
 @app.route('/get_data')
 def get_data():
-    conn = sqlite3.connect('persistencia/basesDeDatos/TuriStatSP-BBDD.db')
+    conn = sqlite3.connect('persistencia/TuriStatSP-BBDD.db')
     cursor = conn.cursor()
     #cursor.execute('SELECT Comunidades_Ciudades_Autonomas, Periodo, Residencia_del_viajero, COALESCE(Total, 0) FROM TuriStatSP_BBDD WHERE Comunidades_Ciudades_Autonomas != "" AND Residencia_del_viajero LIKE "Total " AND Provincias == "" ;')
     cursor.execute('SELECT Comunidades_Ciudades_Autonomas, SUM(COALESCE(Total, 0)) FROM TuriStatSP_BBDD WHERE Comunidades_Ciudades_Autonomas != "" AND Residencia_del_viajero = "Total " AND Provincias == "" GROUP BY Comunidades_Ciudades_Autonomas;')
@@ -47,7 +47,7 @@ def get_data():
     data = cursor.fetchall()
     conn.close()
 
-    conn_coordenadas = sqlite3.connect('persistencia/basesDeDatos/ComunidadesCoordenadas.db')
+    conn_coordenadas = sqlite3.connect('persistencia/ComunidadesCoordenadas.db')
     cursor_coordenadas = conn_coordenadas.cursor()
     cursor_coordenadas.execute('SELECT Comunidad, Latitud, Longitud FROM CoordenadasComunidades')
 

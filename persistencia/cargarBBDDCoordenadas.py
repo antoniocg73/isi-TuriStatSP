@@ -3,7 +3,7 @@ import csv
 import os
 
 # Ruta del archivo CSV con las coordenadas de las comunidades autónomas y ciudades autónomas
-csv_file_path = os.path.join("persistencia/datosEnCsv/", "LatitudesLongitudes.csv")
+csv_file_path = os.path.join("persistencia", "LatitudesLongitudes.csv")
 
 # Mapeo de nombres de comunidades
 nombres_comunidades = {
@@ -29,7 +29,7 @@ nombres_comunidades = {
 }
 
 # Conectar a la base de datos SQLite
-conn = sqlite3.connect('persistencia/basesDeDatos/ComunidadesCoordenadas.db')
+conn = sqlite3.connect('persistencia/ComunidadesCoordenadas.db')
 cursor = conn.cursor()
 
 # Eliminar la tabla si existe
