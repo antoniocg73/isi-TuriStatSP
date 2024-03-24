@@ -1,6 +1,6 @@
 #Instalar flask_cors con pip install flask_cors
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 import sqlite3
 import re 
 from flask_cors import CORS  # Importa el módulo Flask-CORS
@@ -79,6 +79,86 @@ def get_data():
         })
 
     return jsonify(formatted_data)
+@app.route('/obtenerDatosComunidad')
+def obtener_datos_comunidad():
+    comunidad = request.args.get('comunidad')
+    conn = sqlite3.connect('basesDeDatos/TuriStatSP-BBDD.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM TuriStatSP_BBDD WHERE Comunidades_Ciudades_Autonomas = ?', (comunidad,))
+    data = cursor.fetchall()
+    conn.close()
+    return jsonify(data)
+
+@app.route('/obtenerTuristas')
+def obtener_turistas():
+    comunidad = request.args.get('comunidad')
+    anio = request.args.get('anio')
+    conn = sqlite3.connect('basesDeDatos/TuriStatSP-BBDD.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM TuriStatSP_BBDD WHERE Comunidades_Ciudades_Autonomas = ? AND Periodo = ?', (comunidad, anio))
+    data = cursor.fetchall()
+    conn.close()
+    return jsonify(data)
+
+@app.route('/obtenerComunidadesTuristaAno')
+def obtener_comunidades_turista_ano():
+    anio = request.args.get('anio')
+    conn = sqlite3.connect('basesDeDatos/TuriStatSP-BBDD.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT Comunidades_Ciudades_Autonomas, Total FROM TuriStatSP_BBDD WHERE Periodo = ?', (anio,))
+    data = cursor.fetchall()
+    conn.close()
+    return jsonify(data)
+
+@app.route('/obtenerComunidadesMasVisitadas')
+def obtener_comunidades_mas_visitadas():
+    conn = sqlite3.connect('basesDeDatos/TuriStatSP-BBDD.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT Comunidades_Ciudades_Autonomas, SUM(Total) AS TotalTuristas FROM TuriStatSP_BBDD GROUP BY Comunidades_Ciudades_Autonomas ORDER BY TotalTuristas DESC')
+    data = cursor.fetchall()
+    conn.close()
+    return jsonify(data)
+
+@app.route('/obtenerComunidadesMenosVisitadas')
+def obtener_comunidades_menos_visitadas():
+    conn = sqlite3.connect('basesDeDatos/TuriStatSP-BBDD.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT Comunidades_Ciudades_Autonomas, SUM(Total) AS TotalTuristas FROM TuriStatSP_BBDD GROUP BY Comunidades_Ciudades_Autonomas ORDER BY TotalTuristas ASC')
+    data = cursor.fetchall()
+    conn.close()
+    return jsonify(data)
+
+
+@app.route('/tendenciasComunidad')
+def tendencias_comunidad():
+    comunidad = request.args.get('comunidad', '12 Galicia')  # Por defecto se busca '12 Galicia'
+    anio_inicio = request.args.get('anio_inicio', '2018')  # Año de inicio por defecto
+    anio_fin = request.args.get('anio_fin', '2022')  # Año de fin por defecto
+    
+    conn = sqlite3.connect('basesDeDatos/TuriStatSP-BBDD.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT 
+            Comunidades_Ciudades_Autonomas,
+            Periodo,
+            SUM(CASE WHEN Residencia_del_viajero = 'Residentes en España' THEN Total ELSE 0 END) AS Residentes_Espana,
+            SUM(CASE WHEN Residencia_del_viajero = 'Residentes en el Extranjero' THEN Total ELSE 0 END) AS Residentes_Extranjero
+        FROM 
+            TuriStatSP_BBDD
+        WHERE 
+            Comunidades_Ciudades_Autonomas = ?
+            AND Provincias = ''
+            AND Periodo BETWEEN ? AND ?
+        GROUP BY 
+            Comunidades_Ciudades_Autonomas,
+            Periodo
+        ORDER BY 
+            Periodo
+    ''', (comunidad, anio_inicio, anio_fin))
+    
+    data = cursor.fetchall()
+    conn.close()
+    return jsonify(data)
 
 if __name__ == '__main__':
     app.run(debug=True)
