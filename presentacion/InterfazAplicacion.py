@@ -1,5 +1,6 @@
 from dominio.login import Login
 from dominio.ranking import Ranking
+from presentacion.InterfazGrafico import InterfazGrafico
 from tkinter import *
 from tkinter import PhotoImage, messagebox
 import webbrowser
@@ -187,6 +188,8 @@ class InterfazAplicacion:
         self.frameTarea2Ranking.place_forget()
         self.frameTarea3Seleccion.place_forget()
         self.frameTarea4Grafico.place(x=200,y=0)
+        if not hasattr(self, 'grafico_app'):
+            self.grafico_app = InterfazGrafico(self.frameTarea4Grafico)
 
     def abrirMapa(self):
         # Ruta al archivo HTML del mapa
