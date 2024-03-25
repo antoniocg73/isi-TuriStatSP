@@ -8,12 +8,21 @@ class Login:
     def verificar_usuario(self, usuario, contrasena):
         # Buscar en la base de datos si las credenciales son válidas
         self.cursor.execute('SELECT * FROM Usuarios WHERE Usuario=? AND Contrasena=?', (usuario, contrasena))
-        resultado = self.cursor.fetchone()
+        resultado = self.cursor.fetchone() 
+        self.conn.close()
         if resultado:
-            print("¡Autenticación exitosa!")
             return True
         else:
-            print("¡Autenticación fallida!")
             return False
-        self.conn.close()
+        
+    def registrar_usuario(self, usuario, contrasena):
+        try:
+            # Insertar en la base de datos el nuevo usuario
+            self.cursor.execute('INSERT INTO Usuarios (Usuario, Contrasena) VALUES (?, ?)', (usuario, contrasena))
+            self.conn.commit()
+            return True
+        except Exception as e:
+            return False
+        finally:
+            self.conn.close()
         
