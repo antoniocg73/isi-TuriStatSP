@@ -12,9 +12,9 @@ class Ranking:
         resultado = self.cursor.fetchall()
         datos_procesados = self.procesar_resultados(resultado)
         if datos_procesados:
-            print("¡Consulta exitosa!")
+            print("¡Procesamiento de la lista de comunidades más visitadas realizada con éxito!")
         else:
-            print("¡Consulta fallida!")
+            print("¡Procesamiento de la lista de comunidades más visitadas no realizada correctamente!")
         return datos_procesados
    
     def mostrar_comunidades_menos_visitadas(self):
@@ -22,9 +22,9 @@ class Ranking:
         resultado = self.cursor.fetchall()
         datos_procesados = self.procesar_resultados(resultado)
         if datos_procesados:
-            print("¡Consulta exitosa!")
+            print("¡Procesamiento de la lista de comunidades menos visitadas realizada con éxito!")
         else:
-            print("¡Consulta fallida!")
+            print("¡Procesamiento de la lista de comunidades menos visitadas no realizada correctamente!")
         return datos_procesados
         
     def procesar_resultados(self, resultado):
