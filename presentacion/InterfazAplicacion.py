@@ -2,6 +2,7 @@ from dominio.login import Login
 from dominio.ranking import Ranking
 from tkinter import *
 from tkinter import PhotoImage, messagebox
+import webbrowser
 import re
 
 
@@ -37,7 +38,7 @@ class InterfazAplicacion:
         self.botonTarea4Grafico = Button(self.frameMenu, height=3, width=30, text ='GRÁFICO TENDENCIAS', bg='#708090', command=self.initMenuGrafico)
         self.botonTarea4Grafico.place(x=-10, y=270)
         self.botonTarea4Grafico.config(state=DISABLED)
-        self.botonMapa = Button(self.frameMenu, height=3, width=30, text ='MAPA DE ESPAÑA', bg='#708090')
+        self.botonMapa = Button(self.frameMenu, height=3, width=30, text ='MAPA DE ESPAÑA', bg='#708090', command=self.abrirMapa)
         self.botonMapa.place(x=-10, y=325)
         self.botonMapa.config(state=DISABLED)
 
@@ -187,6 +188,12 @@ class InterfazAplicacion:
         self.frameTarea3Seleccion.place_forget()
         self.frameTarea4Grafico.place(x=200,y=0)
 
+    def abrirMapa(self):
+        # Ruta al archivo HTML del mapa
+        ruta_html = 'presentacion\gestionMapa\mapa.html'
+        # Abrir el archivo HTML en el navegador predeterminado
+        webbrowser.open(ruta_html)
+
     def registrar_usuario(self):
         usuario = self.txtLogin.get()
         contrasena = self.txtContrasena.get()
@@ -211,6 +218,7 @@ class InterfazAplicacion:
             self.botonTarea2Ranking.config(state=NORMAL)
             self.botonTarea3Seleccion.config(state=NORMAL)
             self.botonTarea4Grafico.config(state=NORMAL)
+            self.botonMapa.config(state=NORMAL)
             self.botonTarea1Login.config(state=DISABLED)
             self.initMenuInicio()
         else:
