@@ -190,6 +190,8 @@ class InterfazAplicacion:
         self.frameTarea4Grafico.place(x=200,y=0)
         if not hasattr(self, 'grafico_app'):
             self.grafico_app = InterfazGrafico(self.frameTarea4Grafico)
+        else:
+            self.grafico_app.root.lift()
 
     def abrirMapa(self):
         # Ruta al archivo HTML del mapa

@@ -1,66 +1,80 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
-from dominio.TendenciasResidentes import TendenciasGrafico
+from dominio.TendenciasTuristas import TendenciasGrafico
 
 
 class InterfazGrafico:
     def __init__(self, parent):
         self.root = parent
         self.input_frame = Frame(self.root)
-        self.input_frame.pack(pady=20)
+        self.input_frame.pack(pady=20, fill='x', expand=False)
+
+        self.input_frame.grid_columnconfigure(1, weight=1)
+        self.input_frame.grid_columnconfigure(3, weight=1)
 
         # Lista de comunidades
-        comunidades = [
-            "01 Andalucía",
-            "02 Aragón",
-            "03 Asturias, Principado de",
-            "04 Balears, Illes",
-            "05 Canarias",
-            "06 Cantabria",
-            "07 Castilla y León",
-            "08 Castilla - La Mancha",
-            "09 Cataluña",
-            "10 Comunitat Valenciana",
-            "11 Extremadura",
-            "12 Galicia",
-            "13 Madrid, Comunidad de",
-            "14 Murcia, Región de",
-            "15 Navarra, Comunidad Foral de",
-            "16 País Vasco",
-            "17 Rioja, La",
-            "18 Ceuta",
-            "19 Melilla"
-        ]
-        Label(self.input_frame, text="Comunidad:").pack(side=LEFT)
-        self.comunidad_combo = ttk.Combobox(self.input_frame, values=comunidades)
-        self.comunidad_combo.pack(side=LEFT)
-        self.comunidad_combo.set(comunidades[0])
+        self.comunidades = {
+            'Andalucía': '01 Andalucía',
+            'Aragón': '02 Aragón',
+            'Asturias': '03 Asturias, Principado de',
+            'Baleares': '04 Balears, Illes',
+            'Canarias': '05 Canarias',
+            'Cantabria': '06 Cantabria',
+            'Castilla y León': '07 Castilla y León',
+            'Castilla-La Mancha': '08 Castilla - La Mancha',
+            'Cataluña': '09 Cataluña',
+            'Comunidad Valenciana': '10 Comunitat Valenciana',
+            'Extremadura': '11 Extremadura',
+            'Galicia': '12 Galicia',
+            'Madrid': '13 Madrid, Comunidad de',
+            'Murcia': '14 Murcia, Región de',
+            'Navarra': '15 Navarra, Comunidad Foral de',
+            'País Vasco': '16 País Vasco',
+            'La Rioja': '17 Rioja, La',
+            'Ceuta': '18 Ceuta',
+            'Melilla': '19 Melilla',
+        }
+
+        nombres_simplificados = list(self.comunidades.keys())
+
+        Label(self.input_frame, text="Comunidad:").grid(row=0, column=0, sticky='ew')
+        self.comunidad_combo = ttk.Combobox(self.input_frame, values=nombres_simplificados, width=30)
+        self.comunidad_combo.grid(row=0, column=1, sticky='ew', padx=5)
+        self.comunidad_combo.set(nombres_simplificados[0])
 
         años = list(range(2018, 2023))
-        Label(self.input_frame, text="Año Inicio:").pack(side=LEFT)
-        self.anio_inicio_combo = ttk.Combobox(self.input_frame, values=años)
-        self.anio_inicio_combo.pack(side=LEFT)
+        Label(self.input_frame, text="Año Inicio:").grid(row=0, column=2, sticky='ew')
+        self.anio_inicio_combo = ttk.Combobox(self.input_frame, values=años, width=20)
+        self.anio_inicio_combo.grid(row=0, column=3, sticky='ew', padx=5)
         self.anio_inicio_combo.set(años[-1])
 
-        Label(self.input_frame, text="Año Fin:").pack(side=LEFT)
-        self.anio_fin_combo = ttk.Combobox(self.input_frame, values=años)
-        self.anio_fin_combo.pack(side=LEFT)
+        Label(self.input_frame, text="Año Fin:").grid(row=0, column=4, sticky='ew')
+        self.anio_fin_combo = ttk.Combobox(self.input_frame, values=años, width=20)
+        self.anio_fin_combo.grid(row=0, column=5, sticky='ew', padx=5)
         self.anio_fin_combo.set(años[-1])
 
+        # Asegúrate de no usar pack aquí ya que estamos usando grid en el input_frame
+        submit_btn = Button(self.input_frame, text="Consultar", command=self.on_submit)
+        submit_btn.grid(row=0, column=6, sticky='ew', padx=17)
+
+        # Frame para la gráfica
         self.plot_frame = Frame(self.root)
-        self.plot_frame.pack(fill=BOTH, expand=1)
+        self.plot_frame.pack(fill=BOTH, expand=True)
 
         self.tendencias_grafico = TendenciasGrafico()
 
-        submit_btn = Button(self.input_frame, text="Consultar", command=self.on_submit)
-        submit_btn.pack(side=LEFT, padx=10)
-
     def on_submit(self):
-        comunidad = self.comunidad_combo.get()
+        comunidad_simplificada = self.comunidad_combo.get()
+        comunidad = self.comunidades[comunidad_simplificada]
+        
         anio_inicio = self.anio_inicio_combo.get()
         anio_fin = self.anio_fin_combo.get()
         if anio_fin < anio_inicio:
+            # Limpiar el contenido del frame de la gráfica
+            for widget in self.plot_frame.winfo_children():
+                widget.destroy()
+                
             messagebox.showerror("Error", "El año final no puede ser menor que el año inicial.")
             return
         
