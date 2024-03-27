@@ -1,5 +1,5 @@
 from tkinter import *
-from tkinter import ttk
+from tkinter.ttk import Combobox
 from tkinter import messagebox
 from dominio.TendenciasTuristas import TendenciasGrafico
 
@@ -39,18 +39,18 @@ class InterfazGrafico:
         nombres_simplificados = list(self.comunidades.keys())
 
         Label(self.input_frame, text="Comunidad:").grid(row=0, column=0, sticky='ew')
-        self.comunidad_combo = ttk.Combobox(self.input_frame, values=nombres_simplificados, width=30)
+        self.comunidad_combo = Combobox(self.input_frame, values=nombres_simplificados, width=30)
         self.comunidad_combo.grid(row=0, column=1, sticky='ew', padx=5)
         self.comunidad_combo.set(nombres_simplificados[0])
 
         años = list(range(2018, 2023))
         Label(self.input_frame, text="Año Inicio:").grid(row=0, column=2, sticky='ew')
-        self.anio_inicio_combo = ttk.Combobox(self.input_frame, values=años, width=20)
+        self.anio_inicio_combo = Combobox(self.input_frame, values=años, width=20)
         self.anio_inicio_combo.grid(row=0, column=3, sticky='ew', padx=5)
         self.anio_inicio_combo.set(años[-1])
 
         Label(self.input_frame, text="Año Fin:").grid(row=0, column=4, sticky='ew')
-        self.anio_fin_combo = ttk.Combobox(self.input_frame, values=años, width=20)
+        self.anio_fin_combo = Combobox(self.input_frame, values=años, width=20)
         self.anio_fin_combo.grid(row=0, column=5, sticky='ew', padx=5)
         self.anio_fin_combo.set(años[-1])
 

@@ -1,8 +1,10 @@
 from dominio.login import Login
 from dominio.ranking import Ranking
+from dominio.seleccion import Seleccion
 from presentacion.InterfazGrafico import InterfazGrafico
 from tkinter import *
 from tkinter import PhotoImage, messagebox
+from tkinter.ttk import Combobox
 import webbrowser
 import re
 
@@ -20,6 +22,32 @@ class InterfazAplicacion:
         self.ventana.title("Gestión de TuriStatSP")
         self.ventana.geometry("1000x1000")
         self.ventana.resizable(False, False)
+        self.valor_seleccion = IntVar(value=0) 
+
+        # Lista de comunidades
+        self.comunidades = {
+            'Andalucía': '01 Andalucía',
+            'Aragón': '02 Aragón',
+            'Asturias': '03 Asturias, Principado de',
+            'Baleares': '04 Balears, Illes',
+            'Canarias': '05 Canarias',
+            'Cantabria': '06 Cantabria',
+            'Castilla y León': '07 Castilla y León',
+            'Castilla-La Mancha': '08 Castilla - La Mancha',
+            'Cataluña': '09 Cataluña',
+            'Comunidad Valenciana': '10 Comunitat Valenciana',
+            'Extremadura': '11 Extremadura',
+            'Galicia': '12 Galicia',
+            'Madrid': '13 Madrid, Comunidad de',
+            'Murcia': '14 Murcia, Región de',
+            'Navarra': '15 Navarra, Comunidad Foral de',
+            'País Vasco': '16 País Vasco',
+            'La Rioja': '17 Rioja, La',
+            'Ceuta': '18 Ceuta',
+            'Melilla': '19 Melilla',
+        }
+        self.comunidades_inverso = {valor: clave for clave, valor in self.comunidades.items()}
+
 
         #menu frame
         self.frameMenu = Frame(height=800, width=200, bg='#18171c')
@@ -55,7 +83,7 @@ class InterfazAplicacion:
         self.InicioImagen = PhotoImage(file=self.imagenLogo)  
         self.lblInicioImagen = Label(self.frameInicio, image=self.InicioImagen)
         self.lblInicioImagen.config(width=300, height=300, bg = '#317874')
-        self.lblInicioImagen.place(x=420, y=440, anchor=CENTER) 
+        self.lblInicioImagen.place(x=375, y=440, anchor=CENTER) 
         
         #Definición frame Login
         self.frameTarea1Login = Frame(height=920, width=900, bg = '#81C2AE')
@@ -64,7 +92,7 @@ class InterfazAplicacion:
         self.loginLogoImagen = PhotoImage(file=self.imagenLogo)
         self.lblLoginLogoImagen = Label(self.frameTarea1Login, image=self.loginLogoImagen)
         self.lblLoginLogoImagen.config(width=300, height=300, bg = '#81C2AE')
-        self.lblLoginLogoImagen.place(x=420, y=150, anchor=CENTER)
+        self.lblLoginLogoImagen.place(x=410, y=150, anchor=CENTER)
 
         self.loginUsuarioImagen = PhotoImage(file=self.imagenUsuario)
         self.lblLoginUsuarioImagen = Label(self.frameTarea1Login, image=self.loginUsuarioImagen)
@@ -120,9 +148,92 @@ class InterfazAplicacion:
 
 
 
+
+
         #Definición frame Selección
         self.frameTarea3Seleccion = Frame(height=920, width=900, bg = '#81C2AE')
         self.frameTarea3Seleccion.place(x=200,y=0)
+        self.frameTuristas = Frame(self.frameTarea3Seleccion, bg = '#81C2AE', highlightbackground="white", highlightcolor="white", highlightthickness=2)
+        self.frameTuristas.place(x=15, y=70, width=450, height=300)
+        self.frameTuristasSegundaSeccion = Frame(self.frameTarea3Seleccion, bg='#81C2AE', highlightbackground="white", highlightcolor="white", highlightthickness=2)
+        # Frame para mostrar resultados de comunidades
+        self.frameResultadosComunidades = Frame(self.frameTarea3Seleccion, bg='#81C2AE', highlightbackground="white", highlightcolor="white", highlightthickness=2)
+        self.frameResultadosComunidades.place(x=470, y=70, width=320, height=650)
+
+
+
+        #labels del Selección primera sección
+        self.lblNumeroTuristas = Label(self.frameTarea3Seleccion, text="Número de Turistas", font=("Comic Sans",16), fg="white", background="#81C2AE")
+        self.lblNumeroTuristas.place(x=50 ,y=100)
+        self.lblComunidadTuristas = Label(self.frameTarea3Seleccion, text="Comunidad", font=("Comic Sans",14), fg="white", background="#81C2AE")
+        self.lblComunidadTuristas.place(x=50 ,y=150)
+        self.lblPeriodoTuristas = Label(self.frameTarea3Seleccion, text="Periodo", font=("Comic Sans",14), fg="white", background="#81C2AE")       
+        self.lblPeriodoTuristas.place(x=50 ,y=200)
+        self.lblTuristas = Label(self.frameTarea3Seleccion, text="Turistas", font=("Comic Sans",14), fg="white", background="#81C2AE")       
+        self.lblTuristas.place(x=50 ,y=250)
+
+        #labels del Selección segunda sección
+        self.frameTuristasSegundaSeccion.place(x=15, y=420, width=450, height=300)
+        self.lblComunidades = Label(self.frameTuristasSegundaSeccion, text="Comunidades", font=("Comic Sans",16), fg="white", background="#81C2AE")
+        self.lblComunidades.place(x=20 ,y=30)
+        self.lblTuristasNumero = Label(self.frameTuristasSegundaSeccion, text="Turistas", font=("Comic Sans",14), fg="white", background="#81C2AE")
+        self.lblTuristasNumero.place(x=20 ,y=80)
+        self.lblAnoTuristas = Label(self.frameTuristasSegundaSeccion, text="Año", font=("Comic Sans",14), fg="white", background="#81C2AE")       
+        self.lblAnoTuristas.place(x=20 ,y=130)
+        self.lblEscoger = Label(self.frameTuristasSegundaSeccion, text="Escoger", font=("Comic Sans",14), fg="white", background="#81C2AE")       
+        self.lblEscoger.place(x=20 ,y=180)
+
+        # Label para el título de los resultados
+        self.lblResultadosTitulo = Label(self.frameResultadosComunidades, text="Resultados", font=("Comic Sans", 16), fg="white", background="#81C2AE")
+        self.lblResultadosTitulo.place(x=50, y=10)
+
+        #combo box del Selección primera seccion
+        comunidades = ['Andalucía','Aragón','Asturias','Baleares','Canarias','Cantabria','Castilla y León','Castilla-La Mancha',
+        'Cataluña','Comunidad Valenciana','Extremadura','Galicia','Madrid','Murcia','Navarra','País Vasco','La Rioja','Ceuta','Melilla']
+        self.comunidad_combo = Combobox(self.frameTarea3Seleccion, values=comunidades, width=30, state="readonly")
+        self.comunidad_combo.place(x=200 ,y=150)
+        ano = ['2018','2019','2020','2021','2022']
+        self.periodo_combo = Combobox(self.frameTarea3Seleccion, values=ano, width=30, state="readonly")
+        self.periodo_combo.place(x=200 ,y=200)
+
+        #combo box del Selección segunda seccion
+        turistas = ['10.000', '50.000', '100.000', '200.000', '500.000', '1.000.000', '2.500.000', '5.000.000', '8.000.000']
+        self.turistas_combo = Combobox(self.frameTuristasSegundaSeccion, values=turistas, width=30, state="readonly")
+        self.turistas_combo.place(x=170 ,y=80)
+        ano = ['2018','2019','2020','2021','2022']
+        self.anioTuristas_combo = Combobox(self.frameTuristasSegundaSeccion, values=ano, width=30, state="readonly")
+        self.anioTuristas_combo.place(x=170 ,y=130)
+
+        #Radiobuttons para escoger Más o Menos
+        self.radio_mas = Radiobutton(self.frameTuristasSegundaSeccion, text="Más", value=1, variable=self.valor_seleccion, bg='#81C2AE')
+        self.radio_mas.place(x=170, y=180)
+        self.radio_menos = Radiobutton(self.frameTuristasSegundaSeccion, text="Menos", value=2, variable=self.valor_seleccion, bg='#81C2AE')
+        self.radio_menos.place(x=270, y=180)
+
+        #texto del Selección
+        self.txtComunidadesTuristas = Text(self.frameTarea3Seleccion, width=25, height=1)
+        self.txtComunidadesTuristas.place(x=200 ,y=250)
+        
+        #boton del Selección primera seccion
+        self.botonSeleccionTuristas = Button(self.frameTarea3Seleccion, text="Obtener turistas", fg="black", width=30, command=self.mostrar_turistas)
+        self.botonSeleccionTuristas.place(x=200 ,y=300)
+
+        #boton del Selección segunda seccion
+        self.botonComunidadesTuristas = Button(self.frameTuristasSegundaSeccion, text="Buscar", fg="black", width=30, command=self.buscar_comunidades)
+        self.botonComunidadesTuristas.place(x=170 ,y=230)
+
+        # Listbox para mostrar las comunidades
+        self.listboxComunidades = Listbox(self.frameResultadosComunidades, fg="black", bg="white", width=45, height=30)
+        self.listboxComunidades.place(x=20, y=50)
+
+
+
+
+
+
+
+
+
 
         #Definición frame Gráfico
         self.frameTarea4Grafico = Frame(height=920, width=900, bg = '#81C2AE')
@@ -147,27 +258,6 @@ class InterfazAplicacion:
         self.frameTarea3Seleccion.place_forget()
         self.frameTarea4Grafico.place_forget()
 
-        '''
-        # Definición de elementos del frame Login
-        self.LoginText1 = Label(self.frameTarea1Login, height=2,width=50,text='INICIAR SESIÓN', bg='#81C2AE', fg='#FFFFFF', font=100)
-        self.LoginText1.place(x=150 ,y=180)
-        self.LoginText2 = Label(self.frameTarea1Login, height=2,width=50,text='Ingrese sus credenciales', bg='#81C2AE', fg='#FFFFFF', font=100)
-        self.LoginText2.place(x=150 ,y=220)
-        self.LoginText3 = Label(self.frameTarea1Login, height=2,width=50,text='Usuario:', bg='#81C2AE', fg='#FFFFFF', font=100)
-        self.LoginText3.place(x=150 ,y=260)
-        self.LoginText4 = Label(self.frameTarea1Login, height=2,width=50,text='Contraseña:', bg='#81C2AE', fg='#FFFFFF', font=100)
-        self.LoginText4.place(x=150 ,y=300)
-        self.LoginText5 = Label(self.frameTarea1Login, height=2,width=50,text='¿No tienes cuenta?', bg='#81C2AE', fg='#FFFFFF', font=100)
-        self.LoginText5.place(x=150 ,y=340)
-        self.LoginText6 = Label(self.frameTarea1Login, height=2,width=50,text='Regístrate', bg='#81C2AE', fg='#FFFFFF', font=100)
-        self.LoginText6.place(x=150 ,y=380)
-
-        self.entryUsuario = Entry(self.frameTarea1Login, width=30)
-        self.entryUsuario.place(x=300, y=270)
-        self.entryContrasena = Entry(self.frameTarea1Login, width=30, show='*')
-        self.entryContrasena.place(x=300, y=310)
-        self.botonIniciarSesion = Button(self.frameTarea1Login, height=2, width=30, text ='INICIO SESIÓN', bg='#708090', command=self.verificar_credenciales)
-        '''
     def initMenuRanking(self):
         self.frameTarea1Login.place_forget()
         self.frameInicio.place_forget()
@@ -245,6 +335,49 @@ class InterfazAplicacion:
             self.txtMenosVisitado.insert(END, comunidad+'\n')  # Inserta cada comunidad al final del widget de texto
         self.txtMenosVisitado.config(state='disabled')
 
+    # Función para actualizar el listbox con los resultados de la base de datos
+    def actualizar_listbox_comunidades(self, resultados):
+        # Limpia el listbox antes de añadir nuevos resultados
+        self.listboxComunidades.delete(0, END)
+        # Convierte la lista de resultados en un conjunto para eliminar duplicados
+        comunidades_unicas = set([comunidad[0] for comunidad in resultados])
+        # Eliminar espacio en blanco vacío y ordenar alfabéticamente las comunidades
+        comunidades_unicas = sorted([comunidad.strip() for comunidad in comunidades_unicas if comunidad.strip()])
+        # Añade las comunidades únicas al listbox
+        for abreviatura in comunidades_unicas:
+            nombre_completo = self.comunidades_inverso.get(abreviatura, abreviatura)
+            self.listboxComunidades.insert(END, nombre_completo)
+
+    def mostrar_turistas(self):
+        self.txtComunidadesTuristas.config(state='normal')
+        self.txtComunidadesTuristas.delete(1.0, END) # Limpia el widget de texto
+        valor_comunidad = self.comunidad_combo.get()
+        print(valor_comunidad)
+        valor_periodo = self.periodo_combo.get()
+        print(valor_periodo)
+        seleccion = Seleccion()
+        turistas = seleccion.mostrar_numero_turistas(self.comunidades.get(valor_comunidad), valor_periodo)  # Asume que este método devuelve una lista de comunidades
+        self.txtComunidadesTuristas.insert(END, turistas[0][1])  # Inserta cada comunidad al final del widget de texto
+        self.txtComunidadesTuristas.config(state='disabled')
+
+    def buscar_comunidades(self):
+        # Obtiene los valores seleccionados por el usuario
+        turistas_combo = self.turistas_combo.get().replace('.', '')  # Asumiendo que necesitas remover puntos
+        anioTuristas_combo = self.anioTuristas_combo.get()
+
+        mas_o_menos = self.valor_seleccion.get()  # Obtiene 1 o 2, dependiendo de la selección del usuario
+
+        # Verifica que mas_o_menos tenga un valor válido (1 o 2)
+        if mas_o_menos not in [1, 2]:
+            messagebox.showerror("Error", "Seleccione 'Más' o 'Menos' para proceder.")
+            return
+
+        # Instancia la clase de selección y llama al método para obtener los datos
+        seleccion = Seleccion()
+        resultados = seleccion.mostrar_comunidades(anioTuristas_combo, int(turistas_combo), mas_o_menos)
+
+        # Actualiza la listbox con los nombres de las comunidades obtenidas de la consulta
+        self.actualizar_listbox_comunidades(resultados)
 
 
 
