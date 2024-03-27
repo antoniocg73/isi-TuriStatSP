@@ -245,6 +245,7 @@ class InterfazAplicacion:
         self.ventana.mainloop()
 
     def initMenuInicio(self):
+        self.limpiarCampos()
         self.frameInicio.place(x=200,y=0)
         self.frameTarea1Login.place_forget()
         self.frameTarea2Ranking.place_forget()
@@ -252,6 +253,7 @@ class InterfazAplicacion:
         self.frameTarea4Grafico.place_forget()
 
     def initMenuLogin(self):
+        self.limpiarCampos()
         self.frameInicio.place_forget()
         self.frameTarea1Login.place(x=200,y=0)
         self.frameTarea2Ranking.place_forget()
@@ -259,6 +261,7 @@ class InterfazAplicacion:
         self.frameTarea4Grafico.place_forget()
 
     def initMenuRanking(self):
+        self.limpiarCampos()
         self.frameTarea1Login.place_forget()
         self.frameInicio.place_forget()
         self.frameTarea2Ranking.place(x=200,y=0)
@@ -266,6 +269,7 @@ class InterfazAplicacion:
         self.frameTarea4Grafico.place_forget()
 
     def initMenuSeleccion(self):
+        self.limpiarCampos()
         self.frameTarea1Login.place_forget()
         self.frameInicio.place_forget()
         self.frameTarea2Ranking.place_forget()
@@ -273,6 +277,7 @@ class InterfazAplicacion:
         self.frameTarea4Grafico.place_forget()
     
     def initMenuGrafico(self):
+        self.limpiarCampos()
         self.frameTarea1Login.place_forget()
         self.frameInicio.place_forget()
         self.frameTarea2Ranking.place_forget()
@@ -283,9 +288,25 @@ class InterfazAplicacion:
         else:
             self.grafico_app.root.lift()
 
+    def limpiarCampos(self):
+        self.txtLogin.delete(0, END)
+        self.txtContrasena.delete(0, END)
+        self.txtComunidadesTuristas.delete(1.0, END)
+        self.listboxComunidades.delete(0, END)
+        self.txtMasVisitado.delete(1.0, END)
+        self.txtMenosVisitado.delete(1.0, END)
+        self.turistas_combo.set('')
+        self.anioTuristas_combo.set('')
+        self.comunidad_combo.set('')
+        self.periodo_combo.set('')
+        self.valor_seleccion.set(0)
+        self.radio_mas.deselect()
+        self.radio_menos.deselect()
+
     def abrirMapa(self):
         # Ruta al archivo HTML del mapa
         ruta_html = 'presentacion\gestionMapa\mapa.html'
+        self.limpiarCampos()
         # Abrir el archivo HTML en el navegador predeterminado
         webbrowser.open(ruta_html)
 
@@ -349,6 +370,12 @@ class InterfazAplicacion:
             self.listboxComunidades.insert(END, nombre_completo)
 
     def mostrar_turistas(self):
+
+        # Verificar si se ha seleccionado una comunidad y un año
+        if not self.comunidad_combo.get() or not self.periodo_combo.get():
+            messagebox.showwarning("Advertencia", "Por favor, selecciona una comunidad y un año.")
+            return
+        
         self.txtComunidadesTuristas.config(state='normal')
         self.txtComunidadesTuristas.delete(1.0, END) # Limpia el widget de texto
         valor_comunidad = self.comunidad_combo.get()
@@ -361,6 +388,11 @@ class InterfazAplicacion:
         self.txtComunidadesTuristas.config(state='disabled')
 
     def buscar_comunidades(self):
+    # Verificar si se ha seleccionado un número de turistas y un año
+        if not self.turistas_combo.get() or not self.anioTuristas_combo.get():
+            messagebox.showwarning("Advertencia", "Por favor, selecciona un número de turistas y un año.")
+            return
+
         # Obtiene los valores seleccionados por el usuario
         turistas_combo = self.turistas_combo.get().replace('.', '')  # Asumiendo que necesitas remover puntos
         anioTuristas_combo = self.anioTuristas_combo.get()

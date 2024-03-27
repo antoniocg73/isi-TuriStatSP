@@ -5,3 +5,4 @@ dominio/__pycache__/seleccion.cpython-311.pyc
 dominio/__pycache__/ranking.cpython-311.pyc
 dominio/__pycache__/login.cpython-311.pyc
 presentacion/__pycache__/InterfazAplicacion.cpython-311.pyc
+persistencia/__pycache__/obtenerDatosJson.cpython-311.pyc
