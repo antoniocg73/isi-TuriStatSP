@@ -291,7 +291,9 @@ class InterfazAplicacion:
     def limpiarCampos(self):
         self.txtLogin.delete(0, END)
         self.txtContrasena.delete(0, END)
+        self.txtComunidadesTuristas.config(state='normal')
         self.txtComunidadesTuristas.delete(1.0, END)
+        self.txtComunidadesTuristas.config(state='disabled')
         self.listboxComunidades.delete(0, END)
         self.txtMasVisitado.delete(1.0, END)
         self.txtMenosVisitado.delete(1.0, END)
