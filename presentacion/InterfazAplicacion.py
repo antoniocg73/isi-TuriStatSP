@@ -26,22 +26,22 @@ class InterfazAplicacion:
 
         # Lista de comunidades
         self.comunidades = {
-            'Andalucía': '01 Andalucía',
-            'Aragón': '02 Aragón',
+            'Andalucia': '01 Andalucía',
+            'Aragon': '02 Aragón',
             'Asturias': '03 Asturias, Principado de',
             'Baleares': '04 Balears, Illes',
             'Canarias': '05 Canarias',
             'Cantabria': '06 Cantabria',
-            'Castilla y León': '07 Castilla y León',
+            'Castilla y Leon': '07 Castilla y León',
             'Castilla-La Mancha': '08 Castilla - La Mancha',
-            'Cataluña': '09 Cataluña',
+            'Cataluna': '09 Cataluña',
             'Comunidad Valenciana': '10 Comunitat Valenciana',
             'Extremadura': '11 Extremadura',
             'Galicia': '12 Galicia',
             'Madrid': '13 Madrid, Comunidad de',
             'Murcia': '14 Murcia, Región de',
             'Navarra': '15 Navarra, Comunidad Foral de',
-            'País Vasco': '16 País Vasco',
+            'Pais Vasco': '16 País Vasco',
             'La Rioja': '17 Rioja, La',
             'Ceuta': '18 Ceuta',
             'Melilla': '19 Melilla',
@@ -409,6 +409,7 @@ class InterfazAplicacion:
         # Instancia la clase de selección y llama al método para obtener los datos
         seleccion = Seleccion()
         resultados = seleccion.mostrar_comunidades(anioTuristas_combo, int(turistas_combo), mas_o_menos)
+        print(resultados)
 
         # Actualiza la listbox con los nombres de las comunidades obtenidas de la consulta
         self.actualizar_listbox_comunidades(resultados)

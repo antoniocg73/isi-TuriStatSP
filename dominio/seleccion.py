@@ -8,7 +8,7 @@ class Seleccion:
         self.cursor = self.conn.cursor()
         
     def mostrar_numero_turistas(self, comunidad, anio):
-        self.cursor.execute('SELECT Comunidades_Ciudades_Autonomas, SUM(COALESCE(Total, 0)) AS TotalC FROM TuriStatSP_BBDD WHERE Residencia_del_viajero = "Total " AND Comunidades_Ciudades_Autonomas = ? AND Periodo = ? GROUP BY Comunidades_Ciudades_Autonomas', (comunidad, anio))
+        self.cursor.execute('SELECT Comunidades_Ciudades_Autonomas, SUM(COALESCE(Total, 0)) AS TotalC FROM TuriStatSP_BBDD WHERE Residencia_del_viajero = "Total " AND Provincias = "" AND Comunidades_Ciudades_Autonomas = ? AND Periodo = ? GROUP BY Comunidades_Ciudades_Autonomas', (comunidad, anio))
         resultado = self.cursor.fetchall()
         if resultado:
             print("¡Obtención del número de turistas con éxito!")
