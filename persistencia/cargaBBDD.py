@@ -44,4 +44,4 @@ class cargaBBDD:
         # Confirmar los cambios y cerrar la conexión
         conn.commit()
         conn.close()
-        print("Los datos se han cargado correctamente en la base de datos SQLite.")
+        print("Los datos se han cargado correctamente en la base de datos SQLite 'TuriStatSP-BBDD'.")

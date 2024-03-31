@@ -22,7 +22,7 @@ class cargarBBDDusuariosEjemplos:
         try:
             cursor.executemany('INSERT INTO Usuarios (Usuario, Contrasena) VALUES (?, ?)', self.ejemplos)
             conn.commit()
-            print("Ejemplos de usuarios y contraseñas cargados exitosamente.")
+            print("Los datos se han cargado correctamente en la base de datos SQLite 'usuarios.db'.")
         except sqlite3.IntegrityError:
             print("Error: Los usuarios y contraseñas ya existen en la base de datos.")
 
