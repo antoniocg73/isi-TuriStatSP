@@ -10,10 +10,12 @@ if __name__ == '__main__':
     archivo1_db = "persistencia/basesDeDatos/usuarios.db"
     archivo2_db = "persistencia/basesDeDatos/ComunidadesCoordenadas.db"
     archivo3_db = "persistencia/basesDeDatos/TuriStatSP-BBDD.db"
+    archivo4_db = "persistencia/ficherosCSV/DatosINE.csv"
+    archivo5_db = "persistencia/ficherosCSV/LatitudesLongitudes.csv"
 
     # Utiliza os.path.exists para comprobar si el archivo existe.
     def existe_archivo(archivo1_db, archivo2_db, archivo3_db):
-        if os.path.exists(archivo1_db) and os.path.exists(archivo2_db) and os.path.exists(archivo3_db):
+        if os.path.exists(archivo1_db) and os.path.exists(archivo2_db) and os.path.exists(archivo3_db) and os.path.exists(archivo4_db) and os.path.exists(archivo5_db):
             return True
         else:
             return False
