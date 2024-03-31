@@ -1,62 +1,59 @@
 import sqlite3
 import csv
 import os
+class cargarBBDDCoordenadas:
+    def __init__(self):
+        # Mapeo de nombres de comunidades
+        self.nombres_comunidades = {
+            'Andalucía': 'Andalucia',
+            'Aragón': 'Aragon',
+            'Asturias': 'Asturias',
+            'Baleares': 'Baleares',
+            'Canarias': 'Canarias',
+            'Cantabria': 'Cantabria',
+            'Castilla y León': 'Castilla y Leon',
+            'Castilla-La Mancha': 'Castilla-La Mancha',
+            'Cataluña': 'Cataluna',
+            'Ceuta': 'Ceuta',
+            'Comunidad Valenciana': 'Comunidad Valenciana',
+            'Extremadura': 'Extremadura',
+            'Galicia': 'Galicia',
+            'La Rioja': 'La Rioja',
+            'Madrid': 'Madrid',
+            'Melilla': 'Melilla',
+            'Murcia': 'Murcia',
+            'Navarra': 'Navarra',
+            'Euskadi': 'Pais Vasco'
+        }
+    def cargar_BBDD_coordenadas_comunidades(self):
+    # Ruta del archivo CSV con las coordenadas de las comunidades autónomas y ciudades autónomas
+        csv_file_path = os.path.join("persistencia/ficherosCSV", "LatitudesLongitudes.csv")
 
-def cargar_BBDD_coordenadas_comunidades():
-# Ruta del archivo CSV con las coordenadas de las comunidades autónomas y ciudades autónomas
-    csv_file_path = os.path.join("persistencia/ficherosCSV", "LatitudesLongitudes.csv")
+        # Conectar a la base de datos SQLite
+        conn = sqlite3.connect('persistencia/basesDeDatos/ComunidadesCoordenadas.db')
+        cursor = conn.cursor()
 
-    # Mapeo de nombres de comunidades
-    nombres_comunidades = {
-        'Andalucía': 'Andalucia',
-        'Aragón': 'Aragon',
-        'Asturias': 'Asturias',
-        'Baleares': 'Baleares',
-        'Canarias': 'Canarias',
-        'Cantabria': 'Cantabria',
-        'Castilla y León': 'Castilla y Leon',
-        'Castilla-La Mancha': 'Castilla-La Mancha',
-        'Cataluña': 'Cataluna',
-        'Ceuta': 'Ceuta',
-        'Comunidad Valenciana': 'Comunidad Valenciana',
-        'Extremadura': 'Extremadura',
-        'Galicia': 'Galicia',
-        'La Rioja': 'La Rioja',
-        'Madrid': 'Madrid',
-        'Melilla': 'Melilla',
-        'Murcia': 'Murcia',
-        'Navarra': 'Navarra',
-        'Euskadi': 'Pais Vasco'
-    }
+        # Eliminar la tabla si existe
+        cursor.execute('''DROP TABLE IF EXISTS CoordenadasComunidades''')
 
-    # Conectar a la base de datos SQLite
-    conn = sqlite3.connect('persistencia/basesDeDatos/ComunidadesCoordenadas.db')
-    cursor = conn.cursor()
+        # Crear la tabla si no existe
+        cursor.execute('''CREATE TABLE IF NOT EXISTS CoordenadasComunidades (
+                            Comunidad TEXT,
+                            Latitud REAL,
+                            Longitud REAL
+                        )''')
 
-    # Eliminar la tabla si existe
-    cursor.execute('''DROP TABLE IF EXISTS CoordenadasComunidades''')
+        # Leer los datos del archivo CSV y cargarlos en la base de datos
+        with open(csv_file_path, newline='', encoding='utf-8') as csvfile:
+            csvreader = csv.reader(csvfile)
+            next(csvreader)  # Saltar la primera fila si contiene encabezados
 
-    # Crear la tabla si no existe
-    cursor.execute('''CREATE TABLE IF NOT EXISTS CoordenadasComunidades (
-                        Comunidad TEXT,
-                        Latitud REAL,
-                        Longitud REAL
-                    )''')
+            for row in csvreader:
+                comunidad, latitud, longitud = row
+                comunidad = self.nombres_comunidades.get(comunidad, comunidad)
+                cursor.execute('''INSERT INTO CoordenadasComunidades VALUES (?, ?, ?)''', (comunidad, latitud, longitud))
 
-    # Leer los datos del archivo CSV y cargarlos en la base de datos
-    with open(csv_file_path, newline='', encoding='utf-8') as csvfile:
-        csvreader = csv.reader(csvfile)
-        next(csvreader)  # Saltar la primera fila si contiene encabezados
-
-        for row in csvreader:
-            comunidad, latitud, longitud = row
-            comunidad = nombres_comunidades.get(comunidad, comunidad)
-            cursor.execute('''INSERT INTO CoordenadasComunidades VALUES (?, ?, ?)''', (comunidad, latitud, longitud))
-
-    # Confirmar los cambios y cerrar la conexión
-    conn.commit()
-    conn.close()
-    print("Los datos se han cargado correctamente en la base de datos SQLite 'ComunidadesCoordenadas'.")
-
-if __name__ == "__main__":
-    cargar_BBDD_coordenadas_comunidades()
+        # Confirmar los cambios y cerrar la conexión
+        conn.commit()
+        conn.close()
+        print("Los datos se han cargado correctamente en la base de datos SQLite 'ComunidadesCoordenadas'.")
