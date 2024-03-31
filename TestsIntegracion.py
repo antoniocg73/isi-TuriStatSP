@@ -1,13 +1,11 @@
 #Instalar pytest: pip install pytest
 #Ejecutar test: pytest .\TestIntegration.py
 import unittest
-from unittest.mock import patch, MagicMock
-from presentacion.InterfazAplicacion import InterfazAplicacion
 from dominio.login import Login
 from dominio.ranking import Ranking
 from dominio.seleccion import Seleccion
 
-class TestIntegration(unittest.TestCase):
+class TestsIntegracion(unittest.TestCase):
     '''
     @patch.object(Login, 'registrar_usuario')
     @patch.object(Login, 'verificar_usuario')
@@ -16,7 +14,7 @@ class TestIntegration(unittest.TestCase):
     @patch.object(Seleccion, 'mostrar_numero_turistas')
     @patch.object(Seleccion, 'mostrar_comunidades')
     '''
-    def test_integration(self):
+    def test_integracion_1(self):
         # Simular el comportamiento de la aplicación sin la interfaz gráfica
         # Aquí vamos a llamar directamente a los métodos de los módulos de dominio y verificar su comportamiento
         login = Login()

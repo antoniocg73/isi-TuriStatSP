@@ -1,5 +1,5 @@
 #Instalar flask_cors con pip install flask_cors
-
+#Instalar flask con pip install flask
 from flask import Flask, jsonify, request
 import sqlite3
 import re 
