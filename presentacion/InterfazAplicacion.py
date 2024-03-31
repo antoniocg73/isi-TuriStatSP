@@ -188,8 +188,8 @@ class InterfazAplicacion:
         self.lblResultadosTitulo.place(x=50, y=10)
 
         #combo box del Selección primera seccion
-        comunidades = ['Andalucía','Aragón','Asturias','Baleares','Canarias','Cantabria','Castilla y León','Castilla-La Mancha',
-        'Cataluña','Comunidad Valenciana','Extremadura','Galicia','Madrid','Murcia','Navarra','País Vasco','La Rioja','Ceuta','Melilla']
+        comunidades = ['Andalucia','Aragon','Asturias','Baleares','Canarias','Cantabria','Castilla y Leon','Castilla-La Mancha',
+        'Cataluna','Comunidad Valenciana','Extremadura','Galicia','Madrid','Murcia','Navarra','Pais Vasco','La Rioja','Ceuta','Melilla']
         self.comunidad_combo = Combobox(self.frameTarea3Seleccion, values=comunidades, width=30, state="readonly")
         self.comunidad_combo.place(x=200 ,y=150)
         ano = ['2018','2019','2020','2021','2022']
