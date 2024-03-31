@@ -6,14 +6,7 @@ from dominio.ranking import Ranking
 from dominio.seleccion import Seleccion
 
 class TestsIntegracion(unittest.TestCase):
-    '''
-    @patch.object(Login, 'registrar_usuario')
-    @patch.object(Login, 'verificar_usuario')
-    @patch.object(Ranking, 'mostrar_comunidades_mas_visitadas')
-    @patch.object(Ranking, 'mostrar_comunidades_menos_visitadas')
-    @patch.object(Seleccion, 'mostrar_numero_turistas')
-    @patch.object(Seleccion, 'mostrar_comunidades')
-    '''
+ 
     def test_integracion_1(self):
         # Simular el comportamiento de la aplicación sin la interfaz gráfica
         # Aquí vamos a llamar directamente a los métodos de los módulos de dominio y verificar su comportamiento
