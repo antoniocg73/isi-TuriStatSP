@@ -1,5 +1,5 @@
 #Instalar pytest: pip install pytest
-#Ejecutar test: pytest .\TestIntegration.py
+#Ejecutar test: pytest .\TestsIntegracion.py
 import unittest
 from dominio.login import Login
 from dominio.ranking import Ranking

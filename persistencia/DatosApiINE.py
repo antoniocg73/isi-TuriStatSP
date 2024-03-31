@@ -1,5 +1,5 @@
 # pip install requests (Consultas)
-# pip install requests beautifulsoup4 (Web scrapping)
+# pip install beautifulsoup4 (Web scrapping)
 # Prototipo para el API de datos del INE
 import requests
 from bs4 import BeautifulSoup
