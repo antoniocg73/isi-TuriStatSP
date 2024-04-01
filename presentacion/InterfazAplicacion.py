@@ -83,7 +83,7 @@ class InterfazAplicacion:
         self.InicioImagen = PhotoImage(file=self.imagenLogo)  
         self.lblInicioImagen = Label(self.frameInicio, image=self.InicioImagen)
         self.lblInicioImagen.config(width=300, height=300, bg = '#317874')
-        self.lblInicioImagen.place(x=375, y=440, anchor=CENTER) 
+        self.lblInicioImagen.place(x=430, y=440, anchor=CENTER) 
         
         #Definición frame Login
         self.frameTarea1Login = Frame(height=920, width=900, bg = '#81C2AE')
