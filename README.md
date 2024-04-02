@@ -5,6 +5,8 @@ El usuario debe descargarse flask_cors, flask, requests, beautifulsoup4, sqlite3
 
 pip install matplotlib requests numpy beautifulsoup4 flask flask_cors pytest
 
+**Si da problemas tkinter, instalar mediante "pip install tk" (no debería de dar ya que esta librería viene con python preinstalada)**
+
 Sqlite3 en: https://www.sqlite.org/download.html
 Sqlitebrowser: https://sqlitebrowser.org/dl/
 
