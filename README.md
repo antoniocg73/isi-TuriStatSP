@@ -14,7 +14,7 @@ Primero debe de estar el servidor Flask encendido, para que la aplicación funci
 2. Desde la terminal, estamos situados en persistencia y tenemos que iniciar el servidor mediante “obtenerDatosJson.py”. Por lo que escribimos “export FLASK_APP=obtenerDatosJson” y luego “flask run”. 
 3. Una vez tenemos esto, ejecutamos el “manager.py” que está en "isi-TuriStatSP"
 
-## DATOS DE USUARIO PARA LOGIN 
+## Datos de usuario para el login 
 También, la base de datos de los usuarios tiene 3 usuarios predefinidos, que son los siguientes:
 -	antonioCG con contraseña “4567”
 -	georgiAC con contraseña “manzana3”
