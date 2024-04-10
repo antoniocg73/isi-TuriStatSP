@@ -14,13 +14,13 @@ if __name__ == '__main__':
     archivo5_db = "persistencia/ficherosCSV/LatitudesLongitudes.csv"
 
     # Utiliza os.path.exists para comprobar si el archivo existe.
-    def existe_archivo(archivo1_db, archivo2_db, archivo3_db):
+    def existe_archivo(archivo1_db, archivo2_db, archivo3_db, archivo4_db, archivo5_db):
         if os.path.exists(archivo1_db) and os.path.exists(archivo2_db) and os.path.exists(archivo3_db) and os.path.exists(archivo4_db) and os.path.exists(archivo5_db):
             return True
         else:
             return False
         
-    if not (existe_archivo(archivo1_db, archivo2_db, archivo3_db)):
+    if not (existe_archivo(archivo1_db, archivo2_db, archivo3_db, archivo4_db, archivo5_db)):
         DatosApiINE().descargar_archivo()
         DatosApiINENominatim().obtener_latitudes_longitudes()
         cargaBBDD().cargar_BBDD_TuriStatSP()
