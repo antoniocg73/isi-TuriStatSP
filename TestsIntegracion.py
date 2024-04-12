@@ -66,5 +66,4 @@ class TestIntegracionAPI(unittest.TestCase):
 # Si este script se ejecuta directamente, correr las pruebas
 if __name__ == '__main__':
     unittest.main()
-if __name__ == '__main__':
-    unittest.main()
+
